@@ -1,0 +1,13 @@
+
+/displayz.exe
+/GameMonitor.spec
+/icon.png
+/settings.json
+/.gitattributes
+/venv
+/islenv
+/dist
+/build
+/.vscode
+/.idea
+/__pycache__
