@@ -1,0 +1,1 @@
+pyinstaller --noconfirm --onefile --windowed --icon "icon.ico" --add-data "C:/Users/label/AppData/Local/Programs/Python/Python310/Lib/site-packages/customtkinter;customtkinter/"  "main.py"

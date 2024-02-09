@@ -32,7 +32,7 @@ def check_files():
         with open("settings.json", "w") as f:
             f.write('{"default_monitor": 0, "games": []}')
     if not os.path.isfile("icon.ico"):
-        url = "tbd"
+        url = "https://raw.githubusercontent.com/supercam19/GameMonitor/main/icon.ico"
         try:
             r = requests.get(url, allow_redirects=True)
 
