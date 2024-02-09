@@ -1,0 +1,1 @@
+Automatically switches your primary monitor when starting a game so that you can play in fullscreen on your secondary monitor.
