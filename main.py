@@ -1,6 +1,7 @@
 import sys
 
-sys.coinit_flags = 0 # Solve multithreading crash with WMI
+import comtypes
+
 import customtkinter as ctk
 import wmi
 import screeninfo
@@ -9,10 +10,6 @@ import threading
 import infi.systray
 from tkinter import filedialog, PhotoImage
 from Tooltip import Tooltip
-
-# TODO
-# - Find a way to unblock the wmi process listener when the program quits
-# - Fix the canvas in the window
 
 
 class Window(ctk.CTk):
@@ -60,7 +57,6 @@ class Window(ctk.CTk):
         # gotta store in obj memory so they can kill themselves
 
 
-
 class Game:
     def __init__(self, name, process_name, path, monitor):
         self.name = name
@@ -101,6 +97,7 @@ class ProcessListener(threading.Thread):
         self.process_watcher = None
 
     def run(self):
+        comtypes.CoInitialize()
         process_names = [game.process_name for game in self.games]
         self.c = wmi.WMI()
         self.process_watcher = self.c.Win32_Process.watch_for("creation")
