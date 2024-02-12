@@ -1,3 +1,8 @@
+## PreRelease-3 (Feb 11, 2024)
+
+### Fixes
+ - Changed from 'pythoncom' to 'comtypes' library to avoid process listener terminating
+
 ## PreRelease-2 (Feb 9, 2024)
 
 ### Additions
