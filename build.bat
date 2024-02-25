@@ -1,1 +1,1 @@
-pyinstaller --noconfirm --onefile --windowed --icon "icon.ico" --name "GameMonitor" --add-data "C:/Users/label/AppData/Local/Programs/Python/Python310/Lib/site-packages/customtkinter;customtkinter/" --hidden-import=comtypes "main.py"
+python -m nuitka --follow-imports --include-data-dir="C:/Users/label/AppData/Local/Programs/Python/Python310/Lib/site-packages/customtkinter"="customtkinter" --output-filename="GameMonitor" --enable-plugin=tk-inter --windows-icon-from-ico=icon.ico --disable-console --onefile main.py

@@ -1,4 +1,5 @@
 import sys
+import time
 
 import comtypes
 
@@ -97,6 +98,7 @@ class ProcessListener(threading.Thread):
         self.c = None
         self.process_watcher = None
         self.window = window
+        self.last_monitor_switch_time = 0
 
     def run(self):
         comtypes.CoInitialize()
@@ -116,9 +118,11 @@ class ProcessListener(threading.Thread):
                                     p.suspend()
                                     print("Suspending process")
                                     self.window.after(2500, p.resume)
-                            result = set_monitor(game.monitor)
-                            if result:
-                                self._wait_for_process_end(game)
+                            if self.last_monitor_switch_time + 2 < time.time():
+                                result = set_monitor(game.monitor)
+                                if result:
+                                    self.last_monitor_switch_time = time.time()
+                                    self._wait_for_process_end(game)
             except wmi.x_wmi_timed_out:
                 continue
 
