@@ -1,3 +1,8 @@
+## PreRelease-4 (Feb 25, 2024)
+
+### Additions
+ - Delay games from executing to allow Windows to switch the primary display. This should stop quick-loading games from appearing on the wrong monitor.
+
 ## PreRelease-3 (Feb 11, 2024)
 
 ### Fixes

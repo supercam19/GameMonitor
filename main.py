@@ -3,6 +3,7 @@ import sys
 import comtypes
 
 import customtkinter as ctk
+import psutil
 import wmi
 import screeninfo
 from gmutils import *
@@ -89,12 +90,13 @@ class Game:
 
 
 class ProcessListener(threading.Thread):
-    def __init__(self, games):
+    def __init__(self, games, window):
         super().__init__()
         self.games = games
         self.sleepy_time = False
         self.c = None
         self.process_watcher = None
+        self.window = window
 
     def run(self):
         comtypes.CoInitialize()
@@ -107,6 +109,13 @@ class ProcessListener(threading.Thread):
                 if new_process.Name in process_names:
                     for game in self.games:
                         if game.process_name == new_process.Name:
+                            if self.window:
+                                pid = get_pid_from_name(game.process_name)
+                                if pid:
+                                    p = psutil.Process(pid)
+                                    p.suspend()
+                                    print("Suspending process")
+                                    self.window.after(2500, p.resume)
                             result = set_monitor(game.monitor)
                             if result:
                                 self._wait_for_process_end(game)
@@ -170,9 +179,10 @@ def main(open_window):
     games = []
     for game in games_data:
         games.append(Game(game.get("name"), game.get("process_name"), game.get("path"), game.get("monitor")))
-    listener = ProcessListener(games)
-    listener.start()
+
     window = Window()
+    listener = ProcessListener(games, window)
+    listener.start()
 
     for game in games:
         game.add_to_window(window)

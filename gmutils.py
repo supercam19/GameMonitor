@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 
 import customtkinter
 import requests
@@ -40,6 +41,21 @@ def check_files():
                 f.write(r.content)
         except:
             pass
+
+
+def get_pid_from_name(process_name):
+    try:
+        output = subprocess.check_output(['tasklist', '/fi', f'imagename eq {process_name}', '/fo', 'csv']).decode(
+            'utf-8').strip()
+        lines = output.split('\n')
+        if len(lines) > 1:
+            # Assuming the first line is the header
+            pid_str = lines[1].split(',')[1].strip().strip('"')  # Remove surrounding double quotes
+            pid = int(pid_str)
+            return pid
+    except subprocess.CalledProcessError:
+        pass
+    return None
 
 
 def save_settings(settings):
