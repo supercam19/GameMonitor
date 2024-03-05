@@ -116,7 +116,6 @@ class ProcessListener(threading.Thread):
                                 if pid:
                                     p = psutil.Process(pid)
                                     p.suspend()
-                                    print("Suspending process")
                                     self.window.after(2500, p.resume)
                             if self.last_monitor_switch_time + 2 < time.time():
                                 result = set_monitor(game.monitor)
@@ -150,7 +149,6 @@ def set_monitor(monitor):
             # subprocess.call([f"displayz.exe set-primary --id {monitor}"])
             return True
         except:
-            return False
     return False
 
 
@@ -195,7 +193,11 @@ def main(open_window):
         window.withdraw()
         window.visible = False
 
-    menu_options = (("Settings", None, lambda e: spawn_window(window)),)
+    monitors = screeninfo.get_monitors()
+    names = []
+    for i in range(len(monitors)):
+        names.append((monitors[i].name, None, lambda e, i=i: set_monitor(i)))
+    menu_options = (("Settings", None, lambda e: spawn_window(window)), ("Set Primary", None, names))
     systray = infi.systray.SysTrayIcon("icon.ico", "GameMonitor", menu_options, on_quit=lambda e: window.quit())
     systray.start()
 

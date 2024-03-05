@@ -1,3 +1,8 @@
+## PreRelease-5 (???)
+
+### Additions
+ - The primary monitor can now be switch manually from the start tray icon
+
 ## PreRelease-4 (Feb 25, 2024)
 
 ### Additions
