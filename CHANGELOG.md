@@ -5,6 +5,7 @@
  - "launch-game" command line argument for games that don't DPI scale properly
 
 ### Changes
+ - Completed README
  - Enabled automatic DPI awareness so the window scales properly on different DPIs
 
 ### Fixes

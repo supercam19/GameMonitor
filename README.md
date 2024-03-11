@@ -26,5 +26,8 @@ If you use the game name option, it has to match the name of one of the games in
 To have this done automatically when launching a game through Steam, navigate to your game and click on "Properties". Find the "Launch Options" textbox and paste in the following, replacing <game> with the game you are launching, and replacing path/to with the actual path to the GameMonitor executable.<br>
 `path/to/GameMonitor.exe --launch-game <game>`
 
+### Switching primary monitor
+This program also allows you to easily switch your primary monitor by right-clicking the icon in the system tray, and selecting "Set Primary"
+
 ## For developers
 The build.bat file is provided to build the project from source, but make sure to replace "include-data" argument with your path to the customtkinter library.
