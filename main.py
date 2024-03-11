@@ -175,10 +175,17 @@ def add_game(window):
 
 
 def launch_game(game_name):
+    games = load_settings()["games"]
     if os.path.exists(game_name):
+        exe = os.path.basename(game_name)
+        for game in games:
+            if game.get('process_name') == exe:
+                set_monitor(game.get('monitor'))
+                time.sleep(2)
         os.system(game_name)
+        set_monitor(default_monitor)
+        exit(0)
     else:
-        games = load_settings()["games"]
         for game in games:
             if game.get("name") == game_name:
                 set_monitor(game.get("monitor"))
