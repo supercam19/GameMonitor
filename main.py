@@ -191,7 +191,6 @@ def launch_game(game_name):
 
 def main(open_window):
     ctk.set_appearance_mode("system")
-    ctk.deactivate_automatic_dpi_awareness() # DPI awareness breaks the scrolling frame
     games_data = load_settings().get("games")
     games = []
     for game in games_data:
