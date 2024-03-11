@@ -2,6 +2,10 @@
 
 ### Additions
  - The primary monitor can now be switch manually from the start tray icon
+ - "launch-game" command line argument for games that don't DPI scale properly
+
+### Fixes
+ - Fixed program not working if not started from the executable's directory
 
 ## PreRelease-4 (Feb 25, 2024)
 

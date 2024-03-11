@@ -149,6 +149,7 @@ def set_monitor(monitor):
             # subprocess.call([f"displayz.exe set-primary --id {monitor}"])
             return True
         except:
+            return False
     return False
 
 
@@ -173,8 +174,22 @@ def add_game(window):
     save_settings(settings)
 
 
+def launch_game(game_name):
+    if os.path.exists(game_name):
+        os.system(game_name)
+    else:
+        games = load_settings()["games"]
+        for game in games:
+            if game.get("name") == game_name:
+                set_monitor(game.get("monitor"))
+                time.sleep(2)
+                os.chdir(os.path.dirname(game.get('path')))
+                os.system(f"\"{game.get('process_name')}\"")
+                set_monitor(default_monitor)
+                exit(0)
+
+
 def main(open_window):
-    check_files()
     ctk.set_appearance_mode("system")
     ctk.deactivate_automatic_dpi_awareness() # DPI awareness breaks the scrolling frame
     games_data = load_settings().get("games")
@@ -208,6 +223,16 @@ def main(open_window):
 
 
 if __name__ == "__main__":
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    check_files()
+
     default_monitor = 0
     show_on_startup = False if "--startup" in sys.argv else True
+    if "--launch-game" in sys.argv: print(sys.argv)
+
+    for i, arg in enumerate(sys.argv):
+        show_on_startup = False if arg == '--startup' else True
+        if arg == '--launch-game' and len(sys.argv) > i + 1:
+            launch_game(sys.argv[i + 1])
+
     main(show_on_startup)
