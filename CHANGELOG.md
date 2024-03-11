@@ -4,6 +4,9 @@
  - The primary monitor can now be switch manually from the start tray icon
  - "launch-game" command line argument for games that don't DPI scale properly
 
+### Changes
+ - Enabled automatic DPI awareness so the window scales properly on different DPIs
+
 ### Fixes
  - Fixed program not working if not started from the executable's directory
 
