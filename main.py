@@ -229,12 +229,11 @@ def main(open_window):
 
 
 if __name__ == "__main__":
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    os.chdir(os.path.realpath(os.path.dirname(sys.argv[0])))
     check_files()
 
     default_monitor = 0
     show_on_startup = False if "--startup" in sys.argv else True
-    if "--launch-game" in sys.argv: print(sys.argv)
 
     for i, arg in enumerate(sys.argv):
         show_on_startup = False if arg == '--startup' else True
