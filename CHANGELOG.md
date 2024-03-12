@@ -1,3 +1,12 @@
+## PreRelease-6 (???)
+
+### Additions
+ - The program can now be configured to launch at startup in the settings window
+ - The default monitor can now be changed in the settings window
+
+### Fixes
+ - Fixed only 2 monitors showing up in window selection dropdowns
+
 ## PreRelease-5 (March 11, 2024)
 
 ### Additions

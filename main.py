@@ -5,6 +5,7 @@ import comtypes
 
 import customtkinter as ctk
 import psutil
+import win32com.client
 import wmi
 import screeninfo
 from gmutils import *
@@ -51,8 +52,52 @@ class Window(ctk.CTk):
         self.add_game.pack(padx=10, pady=5, side='right')
         self.add_game_tt = Tooltip(self.add_game, "Add game")
 
-        self.games_list_frame = ctk.CTkScrollableFrame(self, width=500, height=340, fg_color="#2e2e2e", bg_color="#2e2e2e")
+        self.games_list_frame = ctk.CTkScrollableFrame(self, width=500, height=260, fg_color="#2e2e2e", bg_color="#2e2e2e")
         self.games_list_frame.pack(side="top", fill="both", expand=True)
+
+        self.options_frame = ctk.CTkFrame(self)
+        self.options_frame.pack(side='top', fill='x')
+
+        self.enable_startup_fr = ctk.CTkFrame(self.options_frame)
+        self.enable_startup_fr.pack(fill='x')
+        self.enable_startup_lbl = ctk.CTkLabel(self.enable_startup_fr, text="Enable on startup", font=("Arial", 14))
+        self.enable_startup_lbl.pack(side='left', padx=10)
+        self.enable_startup_sw = ctk.CTkSwitch(self.enable_startup_fr, command=self.toggle_startup)
+        self.enable_startup_sw.pack(side='right', padx=10)
+        self.enable_startup_sw.select() if json_read_safe_default("settings.json", "startup", 0) else self.enable_startup_sw.deselect()
+
+        self.default_monitor_fr = ctk.CTkFrame(self.options_frame)
+        self.default_monitor_fr.pack(fill='x')
+        self.default_monitor_lbl = ctk.CTkLabel(self.default_monitor_fr, text="Default Monitor", font=("Arial", 14))
+        self.default_monitor_lbl.pack(side='left', padx=10)
+        self.default_monitor_select = ctk.CTkOptionMenu(self.default_monitor_fr, values=get_monitors(True), command=self.update_default_monitor)
+        self.default_monitor_select.pack(side='right', padx=10, pady=5)
+
+    def toggle_startup(self):
+        settings = load_settings()
+        settings["startup"] = self.enable_startup_sw.get()
+        save_settings(settings)
+
+        if self.enable_startup_sw.get():
+            shell = win32com.client.Dispatch("WScript.Shell")
+            shortcut = shell.CreateShortCut(os.path.join(os.environ["APPDATA"], "Microsoft", "Windows", "Start Menu", "Programs", "Startup", "GameMonitor.lnk"))
+            shortcut.TargetPath = sys.argv[0]
+            #icon_location = shell.CreateObject("WScript.Shell").exec('"%s",0' % sys.argv[0]).StdOut.ReadAll().strip()
+            #shortcut.IconLocation = icon_location
+            shortcut.save()
+        else:
+            try:
+                os.remove(os.path.join(os.environ["APPDATA"], "Microsoft", "Windows", "Start Menu", "Programs", "Startup", "GameMonitor.lnk"))
+            except:
+                pass
+
+    def update_default_monitor(self, choice):
+        global default_monitor
+        settings = load_settings()
+        print(int(choice[-1]) - 1)
+        default_monitor = int(choice[-1]) - 1
+        settings["default_monitor"] = default_monitor
+        save_settings(settings)
 
     def reveal_monitors(self):
         self.toplevels = reveal_monitor_ids(self)
@@ -74,7 +119,7 @@ class Game:
         settings = load_settings()
         for game in settings["games"]:
             if game["path"] == self.path:
-                game["monitor"] = int(self.monitor[-1])
+                game["monitor"] = int(self.monitor[-1]) - 1
                 save_settings(settings)
                 break
 
@@ -85,9 +130,9 @@ class Game:
         self.game_fr.pack(fill="x")
         self.game_nm = ctk.CTkLabel(self.game_fr, text=self.name, font=("Arial", 16))
         self.game_nm.pack(side="left", padx=10)
-        self.game_monitor_select = ctk.CTkOptionMenu(self.game_fr, values=["Monitor 0", "Monitor 1"], command=self.update_monitor)
+        self.game_monitor_select = ctk.CTkOptionMenu(self.game_fr, values=get_monitors(True), command=self.update_monitor)
         self.game_monitor_select.pack(side="right", padx=10, pady=5)
-        self.game_monitor_select.set("Monitor " + str(self.monitor))
+        self.game_monitor_select.set(get_monitors(True)[self.monitor])
 
 
 class ProcessListener(threading.Thread):
@@ -139,6 +184,19 @@ class ProcessListener(threading.Thread):
 
     def stop(self):
         self.sleepy_time = True
+
+
+def get_monitors(name_only=False):
+    monitors = screeninfo.get_monitors()
+    names = []
+    if not name_only:
+        for i in range(len(monitors)):
+            names.append((monitors[i].name, None, lambda e, i=i: set_monitor(i)))
+    else:
+        for monitor in monitors:
+            names.append(monitor.name)
+    return names
+
 
 def set_monitor(monitor):
     monitors = screeninfo.get_monitors()
@@ -214,10 +272,7 @@ def main(open_window):
         window.withdraw()
         window.visible = False
 
-    monitors = screeninfo.get_monitors()
-    names = []
-    for i in range(len(monitors)):
-        names.append((monitors[i].name, None, lambda e, i=i: set_monitor(i)))
+    names = get_monitors()
     menu_options = (("Settings", None, lambda e: spawn_window(window)), ("Set Primary", None, names))
     systray = infi.systray.SysTrayIcon("icon.ico", "GameMonitor", menu_options, on_quit=lambda e: window.quit())
     systray.start()

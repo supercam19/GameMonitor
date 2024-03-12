@@ -11,9 +11,18 @@ from screeninfo import screeninfo
 
 
 def json_read_safe(file, key):
-    json_file = json.load(file)
+    json_file = load_settings()
     if key in json_file:
         return json_file[key]
+
+
+def json_read_safe_default(file, key, default):
+    if json_read_safe(file, key):
+        return json_read_safe(file, key)
+    json_file = load_settings()
+    json_file[key] = default
+    save_settings(json_file)
+    return default
 
 
 def check_files():
