@@ -82,8 +82,6 @@ class Window(ctk.CTk):
             shell = win32com.client.Dispatch("WScript.Shell")
             shortcut = shell.CreateShortCut(os.path.join(os.environ["APPDATA"], "Microsoft", "Windows", "Start Menu", "Programs", "Startup", "GameMonitor.lnk"))
             shortcut.TargetPath = sys.argv[0]
-            #icon_location = shell.CreateObject("WScript.Shell").exec('"%s",0' % sys.argv[0]).StdOut.ReadAll().strip()
-            #shortcut.IconLocation = icon_location
             shortcut.save()
         else:
             try:
