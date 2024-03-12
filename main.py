@@ -13,6 +13,7 @@ import threading
 import infi.systray
 from tkinter import filedialog, PhotoImage
 from Tooltip import Tooltip
+import winreg as reg
 
 
 class Window(ctk.CTk):
@@ -62,7 +63,7 @@ class Window(ctk.CTk):
         self.enable_startup_fr.pack(fill='x')
         self.enable_startup_lbl = ctk.CTkLabel(self.enable_startup_fr, text="Enable on startup", font=("Arial", 14))
         self.enable_startup_lbl.pack(side='left', padx=10)
-        self.enable_startup_sw = ctk.CTkSwitch(self.enable_startup_fr, command=self.toggle_startup)
+        self.enable_startup_sw = ctk.CTkSwitch(self.enable_startup_fr, command=self.toggle_startup, text="")
         self.enable_startup_sw.pack(side='right', padx=10)
         self.enable_startup_sw.select() if json_read_safe_default("settings.json", "startup", 0) else self.enable_startup_sw.deselect()
 
@@ -78,16 +79,24 @@ class Window(ctk.CTk):
         settings["startup"] = self.enable_startup_sw.get()
         save_settings(settings)
 
+        # Create a .bat file in the startup folder
         if self.enable_startup_sw.get():
-            shell = win32com.client.Dispatch("WScript.Shell")
-            shortcut = shell.CreateShortCut(os.path.join(os.environ["APPDATA"], "Microsoft", "Windows", "Start Menu", "Programs", "Startup", "GameMonitor.lnk"))
-            shortcut.TargetPath = sys.argv[0]
-            shortcut.save()
+            key = reg.OpenKey(reg.HKEY_CURRENT_USER, "Software\Microsoft\Windows\CurrentVersion\Run", 0, reg.KEY_ALL_ACCESS)
+            reg.SetValueEx(key, "GameMonitor", 0, reg.REG_SZ, sys.argv[0] + " --startup")
         else:
-            try:
-                os.remove(os.path.join(os.environ["APPDATA"], "Microsoft", "Windows", "Start Menu", "Programs", "Startup", "GameMonitor.lnk"))
-            except:
-                pass
+            key = reg.OpenKey(reg.HKEY_CURRENT_USER, "Software\Microsoft\Windows\CurrentVersion\Run", 0, reg.KEY_ALL_ACCESS)
+            reg.DeleteValue(key, "GameMonitor")
+
+        # if self.enable_startup_sw.get():
+        #     shell = win32com.client.Dispatch("WScript.Shell")
+        #     shortcut = shell.CreateShortCut(os.path.join(os.environ["APPDATA"], "Microsoft", "Windows", "Start Menu", "Programs", "Startup", "GameMonitor.lnk"))
+        #     shortcut.TargetPath = sys.argv[0]
+        #     shortcut.save()
+        # else:
+        #     try:
+        #         os.remove(os.path.join(os.environ["APPDATA"], "Microsoft", "Windows", "Start Menu", "Programs", "Startup", "GameMonitor.lnk"))
+        #     except:
+        #         pass
 
     def update_default_monitor(self, choice):
         global default_monitor
