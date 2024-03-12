@@ -5,6 +5,7 @@
  - The default monitor can now be changed in the settings window
 
 ### Fixes
+ - Rewrote Tooltip code to fix various issues such as not disappearing
  - Fixed only 2 monitors showing up in window selection dropdowns
 
 ## PreRelease-5 (March 11, 2024)
