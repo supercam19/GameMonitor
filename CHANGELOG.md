@@ -6,8 +6,10 @@
 
 ### Changes
  - Window can now be resized
+ - Small user interface improvements
 
 ### Fixes
+ - Fixed Light appearance mode not being entirely light
  - Rewrote Tooltip code to fix various issues such as not disappearing
  - Fixed only 2 monitors showing up in window selection dropdowns
 
