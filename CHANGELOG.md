@@ -4,6 +4,9 @@
  - The program can now be configured to launch at startup in the settings window
  - The default monitor can now be changed in the settings window
 
+### Changes
+ - Window can now be resized
+
 ### Fixes
  - Rewrote Tooltip code to fix various issues such as not disappearing
  - Fixed only 2 monitors showing up in window selection dropdowns

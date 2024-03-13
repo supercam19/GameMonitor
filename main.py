@@ -21,7 +21,7 @@ class Window(ctk.CTk):
         super().__init__()
         self.games_list_len = 0
         self.title("GameMonitor")
-        self.resizable(False, False)
+        # self.resizable(False, False)
         self.protocol("WM_DELETE_WINDOW", self.withdraw)
         self.iconbitmap("icon.ico")
         self.visible = True
@@ -35,6 +35,7 @@ class Window(ctk.CTk):
         x = (screen_width / 2) - (window_width / 2)
         y = (screen_height / 2) - (window_height / 2)
         self.geometry('500x400+%d+%d' % (x, y + 30))
+        self.minsize(450, 360)
 
         self.title_frame = ctk.CTkFrame(self)
         self.title_frame.pack(side='top', fill='x')
@@ -45,15 +46,17 @@ class Window(ctk.CTk):
         #self.reveal_monitors.pack(padx=10, pady=5, side='left')
         #self.reveal_monitors_tt = Tooltip(self.reveal_monitors, "Reveal monitors IDs")
 
-        self.title_label = ctk.CTkLabel(self.title_frame, text="GameMonitor", font=("Arial", 20, "bold"))
-        self.title_label.pack(pady=10, side='left', padx=(200, 0))
+
 
         self.add_game = ctk.CTkButton(self.title_frame, text="+", command=lambda: add_game(self), fg_color="#2b2b2b",
                                       hover_color="#333333", width=20, font=("Arial", 20), corner_radius=8)
         self.add_game.pack(padx=10, pady=5, side='right')
         self.add_game_tt = Tooltip(self.add_game, "Add game")
 
-        self.games_list_frame = ctk.CTkScrollableFrame(self, width=500, height=260, fg_color="#2e2e2e", bg_color="#2e2e2e")
+        self.title_label = ctk.CTkLabel(self.title_frame, text="GameMonitor", font=("Arial", 20, "bold"))
+        self.title_label.pack(pady=10, expand=True, fill='x', padx=(20, 0))
+
+        self.games_list_frame = ctk.CTkScrollableFrame(self, width=500, fg_color="#2e2e2e", bg_color="#2e2e2e")
         self.games_list_frame.pack(side="top", fill="both", expand=True)
 
         self.options_frame = ctk.CTkFrame(self)
@@ -86,17 +89,6 @@ class Window(ctk.CTk):
         else:
             key = reg.OpenKey(reg.HKEY_CURRENT_USER, "Software\Microsoft\Windows\CurrentVersion\Run", 0, reg.KEY_ALL_ACCESS)
             reg.DeleteValue(key, "GameMonitor")
-
-        # if self.enable_startup_sw.get():
-        #     shell = win32com.client.Dispatch("WScript.Shell")
-        #     shortcut = shell.CreateShortCut(os.path.join(os.environ["APPDATA"], "Microsoft", "Windows", "Start Menu", "Programs", "Startup", "GameMonitor.lnk"))
-        #     shortcut.TargetPath = sys.argv[0]
-        #     shortcut.save()
-        # else:
-        #     try:
-        #         os.remove(os.path.join(os.environ["APPDATA"], "Microsoft", "Windows", "Start Menu", "Programs", "Startup", "GameMonitor.lnk"))
-        #     except:
-        #         pass
 
     def update_default_monitor(self, choice):
         global default_monitor
