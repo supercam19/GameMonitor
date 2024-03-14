@@ -7,6 +7,7 @@
 ### Changes
  - Window can now be resized
  - Small user interface improvements
+ - Slightly improve algorithm to determine a game's name
 
 ### Fixes
  - Fixed preferred monitor for a game not updating until the program restarted

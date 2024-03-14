@@ -90,6 +90,10 @@ def getFileProperties(fname):
 
     props = {'FixedFileInfo': None, 'StringFileInfo': None, 'FileVersion': None}
 
+    # Generic `Product Name`'s that should be ignored and use the executable name instead
+    # If you know of more generic ones, please add!
+    ignore_generic = ("BootstrapPackagedGame")
+
     try:
         # backslash as parm returns dictionary of numeric info corresponding to VS_FIXEDFILEINFO struc
         fixedInfo = win32api.GetFileVersionInfo(fname, '\\')
@@ -114,9 +118,10 @@ def getFileProperties(fname):
         props['StringFileInfo'] = strInfo
     except:
         return os.path.basename(fname).rstrip(".exe")
-    if props.get("StringFileInfo").get("ProductName") is None:
+    p_name = props.get("StringFileInfo").get("ProductName")
+    if p_name is None or p_name in ignore_generic:
         return os.path.basename(fname).rstrip(".exe")
-    return props.get("StringFileInfo").get("ProductName")
+    return p_name
 
 
 def popup(title, message):
