@@ -9,6 +9,7 @@
  - Small user interface improvements
 
 ### Fixes
+ - Fixed preferred monitor for a game not updating until the program restarted
  - Fixed Light appearance mode not being entirely light
  - Rewrote Tooltip code to fix various issues such as not disappearing
  - Fixed only 2 monitors showing up in window selection dropdowns

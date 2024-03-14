@@ -18,6 +18,9 @@ import winreg as reg
 
 class Window(ctk.CTk):
     def __init__(self):
+
+        self.flag_data_refresh = False
+
         super().__init__()
         self.games_list_len = 0
         self.title("GameMonitor")
@@ -104,7 +107,7 @@ class Window(ctk.CTk):
 
 
 class Game:
-    def __init__(self, name, process_name, path, monitor):
+    def __init__(self, name, process_name, path, monitor, window):
         self.name = name
         self.process_name = process_name
         self.path = path
@@ -112,6 +115,7 @@ class Game:
         self.game_nm = None
         self.game_monitor_select = None
         self.monitor = monitor
+        self.window = window
 
     def update_monitor(self, monitor):
         self.monitor = self.game_monitor_select.get()
@@ -121,6 +125,7 @@ class Game:
                 game["monitor"] = int(self.monitor[-1]) - 1
                 save_settings(settings)
                 break
+        self.window.flag_data_refresh = True
 
     def add_to_window(self, window):
         colour = ("#d6d6d6", "#333333") if window.games_list_len % 2 == 0 else ("#e0e0e0", "#2b2b2b")
@@ -162,12 +167,16 @@ class ProcessListener(threading.Thread):
                                     p.suspend()
                                     self.window.after(2500, p.resume)
                             if self.last_monitor_switch_time + 2 < time.time():
+                                print(f"Game {game.name} requests monitor {game.monitor}")
                                 result = set_monitor(game.monitor)
                                 if result:
                                     self.last_monitor_switch_time = time.time()
                                     self._wait_for_process_end(game)
             except wmi.x_wmi_timed_out:
-                continue
+                if self.window.flag_data_refresh:
+                    self.games = load_games(self.window)
+                    process_names = [game.process_name for game in self.games]
+                    self.window.flag_data_refresh = False
 
     def _wait_for_process_end(self, game):
         if not self.c: raise Exception("WMI not initialized")
@@ -224,11 +233,12 @@ def add_game(window):
             return
     name = getFileProperties(path)
     filename = os.path.basename(path)
-    game = Game(name, filename, path, 0)
+    game = Game(name, filename, path, 0, window)
     game.add_to_window(window)
 
     settings["games"].append({"name": name, "process_name": filename, "path": path, "monitor": 0})
     save_settings(settings)
+    window.flag_data_refresh = True
 
 
 def launch_game(game_name):
@@ -253,14 +263,18 @@ def launch_game(game_name):
                 exit(0)
 
 
-def main(open_window):
-    ctk.set_appearance_mode("system")
+def load_games(window):
     games_data = load_settings().get("games")
     games = []
     for game in games_data:
-        games.append(Game(game.get("name"), game.get("process_name"), game.get("path"), game.get("monitor")))
+        games.append(Game(game.get("name"), game.get("process_name"), game.get("path"), game.get("monitor"), window))
+    return games
+
+def main(open_window):
+    ctk.set_appearance_mode("system")
 
     window = Window()
+    games = load_games(window)
     listener = ProcessListener(games, window)
     listener.start()
 
