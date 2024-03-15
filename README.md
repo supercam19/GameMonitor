@@ -30,4 +30,6 @@ To have this done automatically when launching a game through Steam, navigate to
 This program also allows you to easily switch your primary monitor by right-clicking the icon in the system tray, and selecting "Set Primary"
 
 ## For developers
-The build.bat file is provided to build the project from source, but make sure to replace "include-data" argument with your path to the customtkinter library.
+The build.bat file is provided to build the project from source, but make sure to replace "include-data" argument with your path to the customtkinter library. You will need to have nuitka installed to build with build.bat
+
+Alternatively, you can download the source files and run `pip install requirements.txt` and run the program without compiling with `python main.py`. Note that using this method will not allow the program to launch at startup unless you modify the registry key `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\GameMonitor` to pass the programs path to the python interpreter.
