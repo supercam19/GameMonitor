@@ -1,6 +1,8 @@
-## PreRelease-6 (???)
+## PreRelease-6 (March 14, 2024)
+This will probably be the last pre-release before v1.0.0, unless any major bugs are found. I will be testing it over a few days to make sure, but this pre-release is essentially the feature-complete version of the program.
 
 ### Additions
+ - Added a button that shows a diagram of which monitor corresponds to which name
  - Each game's icon is now displayed beside its name in the settings window
  - The program can now be configured to launch at startup in the settings window
  - The default monitor can now be changed in the settings window

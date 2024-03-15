@@ -43,13 +43,11 @@ class Window(ctk.CTk):
         self.title_frame = ctk.CTkFrame(self, fg_color=("#cfcfcf", "#272727"), bg_color=("#cfcfcf", "#272727"))
         self.title_frame.pack(side='top', fill='x')
 
-        #self.reveal_monitors = ctk.CTkButton(self.title_frame, text="\U0001F5B5", command=self.reveal_monitors,
-        #                                     fg_color="#2b2b2b",
-        #                                     hover_color="#333333", width=20, font=("Arial", 20), corner_radius=8)
-        #self.reveal_monitors.pack(padx=10, pady=5, side='left')
-        #self.reveal_monitors_tt = Tooltip(self.reveal_monitors, "Reveal monitors IDs")
-
-
+        self.reveal_monitors = ctk.CTkButton(self.title_frame, text="?", command=self.reveal_monitors,
+                                             fg_color=("#d6d6d6", "#272727"),
+                                             hover_color=("#e0e0e0", "#2b2b2b"), width=20, font=("Arial", 20), corner_radius=8)
+        self.reveal_monitors.pack(padx=10, pady=5, side='left')
+        self.reveal_monitors_tt = Tooltip(self.reveal_monitors, "Show monitor names")
 
         self.add_game = ctk.CTkButton(self.title_frame, text="+", command=lambda: add_game(self), hover_color=("#e0e0e0", "#2b2b2b"),
                                       fg_color=("#d6d6d6", "#272727"), width=20, font=("Arial", 20), corner_radius=8, text_color=("black", "white"))
@@ -57,7 +55,7 @@ class Window(ctk.CTk):
         self.add_game_tt = Tooltip(self.add_game, "Add game")
 
         self.title_label = ctk.CTkLabel(self.title_frame, text="GameMonitor", font=("Arial", 20, "bold"))
-        self.title_label.pack(pady=10, expand=True, fill='x', padx=(20, 0))
+        self.title_label.pack(pady=10, expand=True, fill='x')
 
         self.games_list_frame = ctk.CTkScrollableFrame(self, width=500, fg_color=("#cfcfcf", "#272727"), bg_color=("#cfcfcf", "#272727"))
         self.games_list_frame.pack(side="top", fill="both", expand=True)
@@ -102,8 +100,7 @@ class Window(ctk.CTk):
         save_settings(settings)
 
     def reveal_monitors(self):
-        self.toplevels = reveal_monitor_ids(self)
-        # gotta store in obj memory so they can kill themselves
+        MonitorPreview(self)
 
 
 class Game:

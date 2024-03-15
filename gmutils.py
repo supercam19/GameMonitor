@@ -155,17 +155,39 @@ def popup(title, message):
 #     return games
 
 
-def reveal_monitor_ids(window):
-    # so broken
-    monitors = screeninfo.get_monitors()
-    popups = []
-    for monitor in monitors:
-        popups.append(customtkinter.CTkToplevel(window))
-        popups[-1].geometry(f"100x100+{monitor.x + 0.5*monitor.width - 50}+{monitor.y+ 0.5*monitor.height - 50}")
-        popups[-1].attributes("-topmost", True)
-        label = customtkinter.CTkLabel(popups[-1], text=f"Monitor ID: {len(popups) -1}", font=("Arial", 20))
-        label.pack(pady=10, side="top")
-        popups[-1].after(5000, popups[-1].destroy)
-    return popups
+class MonitorPreview(customtkinter.CTkToplevel):
+    def __init__(self, window):
+        super().__init__(window)
+        self.window = window
+
+        self.monitors = screeninfo.get_monitors()
+        self.title("Monitor Preview")
+
+
+
+        left_bounds = [monitor.x for monitor in self.monitors]
+        right_bounds = [monitor.x + monitor.width for monitor in self.monitors]
+        top_bounds = [monitor.y for monitor in self.monitors]
+        bottom_bounds = [monitor.y + monitor.height for monitor in self.monitors]
+
+        bounding_width = max(right_bounds) - min(left_bounds)
+        bounding_height = max(bottom_bounds) - min(top_bounds)
+        x_offset = -min(left_bounds)
+        y_offset = -min(top_bounds)
+        scale = 0.2
+        bounding_width *= scale
+        bounding_height *= scale
+
+        self.canvas = customtkinter.CTkCanvas(self, width=bounding_width, height=bounding_height, bg="gray")
+        self.canvas.pack(fill="both", expand=True)
+
+        self.geometry(f"+%d+%d" % (self.winfo_screenwidth() / 2 - bounding_width/2, self.winfo_screenheight() / 2 - bounding_height/2))
+        print(f"{self.winfo_screenwidth() / 2 - bounding_width/2}+{self.winfo_screenheight() / 2 - bounding_height/2}")
+
+        for monitor in self.monitors:
+            self.canvas.create_rectangle(monitor.x + x_offset, monitor.y + y_offset, monitor.x + monitor.width + x_offset, monitor.y + monitor.height + y_offset, fill="lightblue", outline="black", width="5")
+            self.canvas.create_text(monitor.x + x_offset + 0.5*monitor.width, monitor.y + y_offset + 0.5*monitor.height, text=monitor.name, font=("Arial", 20))
+
+        self.canvas.scale("all", 0, 0, scale, scale)
 
 
