@@ -8,7 +8,7 @@ This program works by switching your primary monitor when it detects a game has 
 Note that this program works for Windows only. Additionally, this program is still in beta stages and issues may be encountered, please feel free to report any bugs or feature suggestions in the [issues](https://www.github.com/supercam19/GameMonitor/issues) section.
 
 ## Usage
-1. Download this program from the [releases page](https://www.github.com/supercam19/GameMonitor/releases/latest) by dropping down the "Assets" section and clicking "GameMonitor.exe".
+1. Download this program from the [releases page](https://www.github.com/supercam19/GameMonitor/releases/latest) by dropping down the "Assets" section and clicking "GameMonitor.exe". It is recommended to put this program in its own folder so that no other program accidentally overwrite its files.
 
 2. Once downloaded, launch the executable file, and use the "+" button in the top right to add a rule.
 
