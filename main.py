@@ -132,7 +132,7 @@ class Game:
         window.games_list_len += 1
         self.game_fr = ctk.CTkFrame(window.games_list_frame, bg_color=colour, fg_color=colour)
         self.game_fr.pack(fill="x")
-        self.game_nm = ctk.CTkLabel(self.game_fr, text=self.name, font=("Arial", 16))
+        self.game_nm = ctk.CTkLabel(self.game_fr, text="  " + self.name, font=("Arial", 16), image=icon_from_exe(self.path), compound="left")
         self.game_nm.pack(side="left", padx=10)
         self.game_monitor_select = ctk.CTkOptionMenu(self.game_fr, values=get_monitors(True), command=self.update_monitor)
         self.game_monitor_select.pack(side="right", padx=10, pady=5)

@@ -1,6 +1,7 @@
 ## PreRelease-6 (???)
 
 ### Additions
+ - Each game's icon is now displayed beside its name in the settings window
  - The program can now be configured to launch at startup in the settings window
  - The default monitor can now be changed in the settings window
 

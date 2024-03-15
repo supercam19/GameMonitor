@@ -6,6 +6,8 @@ import customtkinter
 import requests
 import win32api
 import ctypes
+from PIL import Image
+import icoextract
 
 from screeninfo import screeninfo
 
@@ -122,6 +124,10 @@ def getFileProperties(fname):
     if p_name is None or p_name in ignore_generic:
         return os.path.basename(fname).rstrip(".exe")
     return p_name
+
+
+def icon_from_exe(exe, size=(32, 32)):
+    return customtkinter.CTkImage(Image.open(icoextract.IconExtractor(exe).get_icon()).resize(size))
 
 
 def popup(title, message):
