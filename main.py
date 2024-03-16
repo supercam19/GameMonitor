@@ -94,8 +94,7 @@ class Window(ctk.CTk):
     def update_default_monitor(self, choice):
         global default_monitor
         settings = load_settings()
-        print(int(choice[-1]) - 1)
-        default_monitor = int(choice[-1]) - 1
+        default_monitor = get_monitor_id_from_name(choice)
         settings["default_monitor"] = default_monitor
         save_settings(settings)
 
@@ -119,7 +118,7 @@ class Game:
         settings = load_settings()
         for game in settings["games"]:
             if game["path"] == self.path:
-                game["monitor"] = int(self.monitor[-1]) - 1
+                game["monitor"] = get_monitor_id_from_name(self.monitor)
                 save_settings(settings)
                 break
         self.window.flag_data_refresh = True
@@ -164,7 +163,6 @@ class ProcessListener(threading.Thread):
                                     p.suspend()
                                     self.window.after(2500, p.resume)
                             if self.last_monitor_switch_time + 2 < time.time():
-                                print(f"Game {game.name} requests monitor {game.monitor}")
                                 result = set_monitor(game.monitor)
                                 if result:
                                     self.last_monitor_switch_time = time.time()

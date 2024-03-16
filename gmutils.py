@@ -27,6 +27,12 @@ def json_read_safe_default(file, key, default):
     return default
 
 
+def get_monitor_id_from_name(name):
+    monitors = screeninfo.get_monitors()
+    for i, monitor in enumerate(monitors):
+        if monitor.name == name:
+            return i
+
 def check_files():
     os.chdir(".")
     if not os.path.isfile("displayz.exe"):
