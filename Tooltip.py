@@ -35,6 +35,7 @@ class Tooltip(ctk.CTkToplevel):
             self.widget.bind("<Motion>", self.move_tip, add="+")
 
     def show_tip(self, event=None):
+        self.wm_geometry(f'+{self.widget.winfo_pointerx() + 10}+{self.widget.winfo_pointery() + 10}')
         self.deiconify()
 
     def hide_tip(self, event=None):
