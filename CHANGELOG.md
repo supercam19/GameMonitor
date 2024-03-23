@@ -1,4 +1,7 @@
-???
+Full Release v1.1.0 (???)
+
+### Changes
+ - Made the title clickable to open the GitHub page
 
 ### Fixes
  - Fixed program crashing on load if Windows changed the name of a monitor

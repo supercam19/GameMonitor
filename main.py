@@ -14,6 +14,7 @@ import infi.systray
 from tkinter import filedialog, PhotoImage
 from Tooltip import Tooltip
 import winreg as reg
+import webbrowser
 
 
 class Window(ctk.CTk):
@@ -54,8 +55,11 @@ class Window(ctk.CTk):
         self.add_game.pack(padx=10, pady=5, side='right')
         self.add_game_tt = Tooltip(self.add_game, "Add game")
 
-        self.title_label = ctk.CTkLabel(self.title_frame, text="GameMonitor", font=("Arial", 20, "bold"))
-        self.title_label.pack(pady=10, expand=True, fill='x')
+        self.title_button = ctk.CTkButton(self.title_frame, text="GameMonitor", font=("Arial", 20, "bold"), command=lambda: webbrowser.open("https://github.com/supercam19/GameMonitor"),
+                                          fg_color=("#cfcfcf", "#272727"), bg_color=("#cfcfcf", "#272727"), hover=False, width=0)
+        self.title_button.pack(pady=10)
+        self.title_button.bind("<Enter>", self.title_hovered)
+        self.title_button.bind("<Leave>", self.title_leave)
 
         self.games_list_frame = ctk.CTkScrollableFrame(self, width=500, fg_color=("#cfcfcf", "#272727"), bg_color=("#cfcfcf", "#272727"))
         self.games_list_frame.pack(side="top", fill="both", expand=True)
@@ -100,6 +104,12 @@ class Window(ctk.CTk):
 
     def reveal_monitors(self):
         MonitorPreview(self)
+
+    def title_hovered(self, e):
+        self.title_button.configure(font=("Arial", 20, "bold", "underline"))
+
+    def title_leave(self, e):
+        self.title_button.configure(font=("Arial", 20, "bold"))
 
 
 class Game:
@@ -265,6 +275,7 @@ def load_games(window):
         games.append(Game(game.get("name"), game.get("process_name"), game.get("path"), game.get("monitor"), window))
     return games
 
+
 def main(open_window):
     ctk.set_appearance_mode("system")
 
@@ -304,3 +315,4 @@ if __name__ == "__main__":
             launch_game(sys.argv[i + 1])
 
     main(show_on_startup)
+
