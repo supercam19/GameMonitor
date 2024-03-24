@@ -256,7 +256,7 @@ def launch_game(game_name):
                 time.sleep(2)
         os.system(game_name)
         set_monitor(default_monitor)
-        exit(0)
+        sys.exit(0)
     else:
         for game in games:
             if game.get("name") == game_name:
@@ -265,7 +265,7 @@ def launch_game(game_name):
                 os.chdir(os.path.dirname(game.get('path')))
                 os.system(f"\"{game.get('process_name')}\"")
                 set_monitor(default_monitor)
-                exit(0)
+                sys.exit(0)
 
 
 def load_games(window):
@@ -316,6 +316,8 @@ if __name__ == "__main__":
                 launch_game(sys.argv[i + 1])
 
         main(show_on_startup)
+    except SystemExit:
+        pass
     except Exception as e:
         popup("Error", f"An error occurred. If you believe this to be a bug, please submit an issue at github.com/supercam19/GameMonitor/issues with the error message:\n\n{e}")
 

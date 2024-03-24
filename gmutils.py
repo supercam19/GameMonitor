@@ -1,6 +1,7 @@
 import json
 import os
 import subprocess
+import sys
 
 import customtkinter
 import requests
@@ -45,7 +46,7 @@ def check_files():
             # print("displayz.exe downloaded")
         except Exception as e:
             popup("Error", f"Could not download required file displayz.exe. Submit an issue to the GitHub if you believe this is a bug:\n\n {e}")
-            exit(0)
+            sys.exit(0)
     if not os.path.isfile("settings.json"):
         with open("settings.json", "w") as f:
             f.write('{"default_monitor": 0, "games": []}')
