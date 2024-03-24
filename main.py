@@ -27,7 +27,7 @@ class Window(ctk.CTk):
         self.title("GameMonitor")
         # self.resizable(False, False)
         self.protocol("WM_DELETE_WINDOW", self.withdraw)
-        self.iconbitmap("icon.ico")
+        if os.path.isfile("icon.ico"): self.iconbitmap("icon.ico")
         self.visible = True
         self.toplevels = []
 
@@ -303,16 +303,19 @@ def main(open_window):
 
 
 if __name__ == "__main__":
-    os.chdir(os.path.realpath(os.path.dirname(sys.argv[0])))
-    check_files()
+    try:
+        os.chdir(os.path.realpath(os.path.dirname(sys.argv[0])))
+        check_files()
 
-    default_monitor = 0
-    show_on_startup = False if "--startup" in sys.argv else True
+        default_monitor = 0
+        show_on_startup = False if "--startup" in sys.argv else True
 
-    for i, arg in enumerate(sys.argv):
-        show_on_startup = False if arg == '--startup' else True
-        if arg == '--launch-game' and len(sys.argv) > i + 1:
-            launch_game(sys.argv[i + 1])
+        for i, arg in enumerate(sys.argv):
+            show_on_startup = False if arg == '--startup' else True
+            if arg == '--launch-game' and len(sys.argv) > i + 1:
+                launch_game(sys.argv[i + 1])
 
-    main(show_on_startup)
+        main(show_on_startup)
+    except Exception as e:
+        popup("Error", f"An error occurred. If you believe this to be a bug, please submit an issue at github.com/supercam19/GameMonitor/issues with the error message:\n\n{e}")
 
