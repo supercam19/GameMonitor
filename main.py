@@ -41,33 +41,33 @@ class Window(ctk.CTk):
         self.geometry('500x400+%d+%d' % (x, y + 30))
         self.minsize(450, 360)
 
-        self.title_frame = ctk.CTkFrame(self, fg_color=("#cfcfcf", "#272727"), bg_color=("#cfcfcf", "#272727"))
+        self.title_frame = ctk.CTkFrame(self, fg_color=("#ffffff", "#272727"), bg_color=("#ffffff", "#272727"))
         self.title_frame.pack(side='top', fill='x')
 
         self.reveal_monitors = ctk.CTkButton(self.title_frame, text="?", command=self.reveal_monitors,
-                                             fg_color=("#d6d6d6", "#272727"),
-                                             hover_color=("#e0e0e0", "#2b2b2b"), width=20, font=("Arial", 20), corner_radius=8)
+                                             fg_color=("#ffffff", "#272727"), text_color=("black", "white"),
+                                             hover_color=("#f6f6f6", "#2b2b2b"), width=20, font=("Arial", 20), corner_radius=8)
         self.reveal_monitors.pack(padx=10, pady=5, side='left')
         self.reveal_monitors_tt = Tooltip(self.reveal_monitors, "Show monitor names")
 
-        self.add_game = ctk.CTkButton(self.title_frame, text="+", command=lambda: add_game(self), hover_color=("#e0e0e0", "#2b2b2b"),
-                                      fg_color=("#d6d6d6", "#272727"), width=20, font=("Arial", 20), corner_radius=8, text_color=("black", "white"))
+        self.add_game = ctk.CTkButton(self.title_frame, text="+", command=lambda: add_game(self), hover_color=("#f6f6f6", "#2b2b2b"),
+                                      fg_color=("#ffffff", "#272727"), width=20, font=("Arial", 20), corner_radius=8, text_color=("black", "white"))
         self.add_game.pack(padx=10, pady=5, side='right')
         self.add_game_tt = Tooltip(self.add_game, "Add game")
 
         self.title_button = ctk.CTkButton(self.title_frame, text="GameMonitor", font=("Arial", 20, "bold"), command=lambda: webbrowser.open("https://github.com/supercam19/GameMonitor"),
-                                          fg_color=("#cfcfcf", "#272727"), bg_color=("#cfcfcf", "#272727"), hover=False, width=0)
+                                          fg_color=("#ffffff", "#272727"), bg_color=("#ffffff", "#272727"), hover=False, width=0, text_color=("black", "white"))
         self.title_button.pack(pady=10)
         self.title_button.bind("<Enter>", self.title_hovered)
         self.title_button.bind("<Leave>", self.title_leave)
 
-        self.games_list_frame = ctk.CTkScrollableFrame(self, width=500, fg_color=("#cfcfcf", "#272727"), bg_color=("#cfcfcf", "#272727"))
+        self.games_list_frame = ctk.CTkScrollableFrame(self, width=500, fg_color=("#ffffff", "#272727"), bg_color=("#ffffff", "#272727"))
         self.games_list_frame.pack(side="top", fill="both", expand=True)
 
-        self.options_frame = ctk.CTkFrame(self, fg_color=("#cfcfcf", "#272727"), bg_color=("#cfcfcf", "#272727"))
+        self.options_frame = ctk.CTkFrame(self, fg_color=("#ffffff", "#272727"), bg_color=("#ffffff", "#272727"))
         self.options_frame.pack(side='top', fill='x')
 
-        self.enable_startup_fr = ctk.CTkFrame(self.options_frame, fg_color=("#cfcfcf", "#272727"), bg_color=("#cfcfcf", "#272727"))
+        self.enable_startup_fr = ctk.CTkFrame(self.options_frame, fg_color=("#ffffff", "#272727"), bg_color=("#ffffff", "#272727"))
         self.enable_startup_fr.pack(fill='x')
         self.enable_startup_lbl = ctk.CTkLabel(self.enable_startup_fr, text="Enable on startup", font=("Arial", 14))
         self.enable_startup_lbl.pack(side='left', padx=10)
@@ -75,7 +75,7 @@ class Window(ctk.CTk):
         self.enable_startup_sw.pack(side='right', padx=10)
         self.enable_startup_sw.select() if json_read_safe_default("settings.json", "startup", 0) else self.enable_startup_sw.deselect()
 
-        self.default_monitor_fr = ctk.CTkFrame(self.options_frame, fg_color=("#cfcfcf", "#272727"), bg_color=("#cfcfcf", "#272727"))
+        self.default_monitor_fr = ctk.CTkFrame(self.options_frame, fg_color=("#ffffff", "#272727"), bg_color=("#ffffff", "#272727"))
         self.default_monitor_fr.pack(fill='x')
         self.default_monitor_lbl = ctk.CTkLabel(self.default_monitor_fr, text="Default Monitor", font=("Arial", 14))
         self.default_monitor_lbl.pack(side='left', padx=10)
@@ -134,7 +134,7 @@ class Game:
         self.window.flag_data_refresh = True
 
     def add_to_window(self, window):
-        colour = ("#d6d6d6", "#333333") if window.games_list_len % 2 == 0 else ("#e0e0e0", "#2b2b2b")
+        colour = ("#ececec", "#333333") if window.games_list_len % 2 == 0 else ("#f6f6f6", "#2b2b2b")
         window.games_list_len += 1
         self.game_fr = ctk.CTkFrame(window.games_list_frame, bg_color=colour, fg_color=colour)
         self.game_fr.pack(fill="x")

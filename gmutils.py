@@ -36,7 +36,6 @@ def get_monitor_id_from_name(name):
 def check_files():
     os.chdir(".")
     if not os.path.isfile("displayz.exe"):
-        # print("displayz.exe not found, downloading...")
         url = "https://github.com/michidk/displayz/releases/download/0.1.0/displayz.exe"
         try:
             r = requests.get(url, allow_redirects=True)
@@ -44,8 +43,9 @@ def check_files():
             with open("displayz.exe", "wb") as f:
                 f.write(r.content)
             # print("displayz.exe downloaded")
-        except:
-            pass
+        except Exception as e:
+            popup("Error", f"Could not download required file displayz.exe. Submit an issue to the GitHub if you believe this is a bug:\n\n {e}")
+            exit(0)
     if not os.path.isfile("settings.json"):
         with open("settings.json", "w") as f:
             f.write('{"default_monitor": 0, "games": []}')
@@ -56,7 +56,7 @@ def check_files():
 
             with open("icon.ico", "wb") as f:
                 f.write(r.content)
-        except:
+        except Exception as e:
             pass
 
 

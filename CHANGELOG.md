@@ -2,6 +2,7 @@ Full Release v1.1.0 (???)
 
 ### Changes
  - Made the title clickable to open the GitHub page
+ - Improve UI contrast in light mode
 
 ### Fixes
  - Fixed program crashing on load if Windows changed the name of a monitor

@@ -25,9 +25,9 @@ class Tooltip(ctk.CTkToplevel):
         # Leaves only the label and removes the topbar of the window
         self.wm_overrideredirect(True)
         self.wm_geometry(f'+{x}+{y}')
-        self.wm_attributes("-transparentcolor", "#bdbdbd") if ctk.get_appearance_mode() == "Light" else self.wm_attributes("-transparentcolor", "#555555")
+        self.wm_attributes("-transparentcolor", "#e3e3e3") if ctk.get_appearance_mode() == "Light" else self.wm_attributes("-transparentcolor", "#555555")
         self.configure(bg=("#bdbdbd", "#555555"))
-        self.label = ctk.CTkLabel(self, text=self.text, corner_radius=10, bg_color=("#bdbdbd", '#555555'), fg_color=("#bebebe", '#545454'),
+        self.label = ctk.CTkLabel(self, text=self.text, corner_radius=10, bg_color=("#e3e3e3", '#555555'), fg_color=("#e4e4e4", '#545454'),
                                   width=1)
         self.label.pack()
 
