@@ -1,8 +1,12 @@
-Full Release v1.1.0 (???)
+## Full Release v1.0.0 (March 23, 2024)
+Finally the full release of GameMonitor! Refer to the README to understand how to use the program. Took a while to get to this point but this program solves the problem of fullscreen gaming on different monitors. I hope you enjoy it!
+
+The following changes list only the changes made since PreRelease-6:
 
 ### Changes
  - Made the title clickable to open the GitHub page
  - Improve UI contrast in light mode
+ - Improved error handling
 
 ### Fixes
  - Fixed program crashing on load if Windows changed the name of a monitor
