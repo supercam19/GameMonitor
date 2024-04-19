@@ -1,3 +1,8 @@
+## Version 1.0.1 (???)
+
+### Fixes
+ - Program no longer crashes if you delete a game you set a rule for
+
 ## Full Release v1.0.0 (March 23, 2024)
 Finally the full release of GameMonitor! Refer to the README to understand how to use the program. Took a while to get to this point but this program solves the problem of fullscreen gaming on different monitors. I hope you enjoy it!
 

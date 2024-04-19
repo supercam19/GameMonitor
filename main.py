@@ -271,8 +271,12 @@ def launch_game(game_name):
 def load_games(window):
     games_data = load_settings().get("games")
     games = []
-    for game in games_data:
-        games.append(Game(game.get("name"), game.get("process_name"), game.get("path"), game.get("monitor"), window))
+    for i, game in enumerate(games_data):
+        if os.path.exists(game.get("path")):
+            games.append(Game(game.get("name"), game.get("process_name"), game.get("path"), game.get("monitor"), window))
+        else:
+            del games_data[i]
+    save_settings({"games": games_data})
     return games
 
 
@@ -316,8 +320,6 @@ if __name__ == "__main__":
                 launch_game(sys.argv[i + 1])
 
         main(show_on_startup)
-    except SystemExit:
-        pass
     except Exception as e:
-        popup("Error", f"An error occurred. If you believe this to be a bug, please submit an issue at github.com/supercam19/GameMonitor/issues with the error message:\n\n{e}")
+        popup("Error", f"An error occurred. If you believe this to be a bug, please submit an issue at github.com/supercam19/GameMonitor/issues with the error message:\n\n{e.with_traceback(None)}")
 
